@@ -1,0 +1,6 @@
+streamlit>=1.36
+pandas>=2.0
+matplotlib>=3.7
+rdkit
+py3Dmol>=2.0
+reportlab>=4.0
