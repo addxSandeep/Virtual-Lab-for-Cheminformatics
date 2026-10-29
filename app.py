@@ -15,150 +15,287 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
 from reportlab.lib.units import inch
 
-st.set_page_config(page_title="Computational Chemistry Virtual Lab", page_icon="🧪", layout="wide")
+st.set_page_config(
+    page_title="Computational Chemistry Virtual Lab",
+    page_icon="🧪",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
 st.markdown("""
 <style>
-/* Modern Academic Blue Theme */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+/* ==========================================================================
+   PREMIUM LIQUID GLASS & GLASSMORPHISM UI - CHEMINFORMATICS SUITE
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 html, body, [class*="css"] {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #f1f5f9;
 }
 
-/* Hero & Header Styling */
-.hero-card {
-    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-    color: white;
-    padding: 2.2rem 2.5rem;
+/* Ambient Liquid Chemical Canvas Background */
+.stApp {
+    background-color: #060911;
+    background-image: 
+        radial-gradient(circle at 10% 12%, rgba(6, 182, 212, 0.18) 0%, transparent 40%),
+        radial-gradient(circle at 88% 18%, rgba(139, 92, 246, 0.22) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.12) 0%, transparent 55%),
+        radial-gradient(circle at 82% 85%, rgba(236, 72, 153, 0.15) 0%, transparent 42%),
+        radial-gradient(circle at 18% 88%, rgba(16, 185, 129, 0.14) 0%, transparent 40%);
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+/* Translucent Frosted Glass Sidebar */
+section[data-testid="stSidebar"] {
+    background: rgba(9, 13, 24, 0.75) !important;
+    backdrop-filter: blur(28px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Sidebar Branding Badge */
+.sidebar-brand {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 16px 18px;
     border-radius: 16px;
-    box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.25);
+    margin-bottom: 20px;
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Liquid Glass Hero Header */
+.liquid-hero {
+    position: relative;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(30, 41, 59, 0.45) 100%);
+    backdrop-filter: blur(28px) saturate(200%);
+    -webkit-backdrop-filter: blur(28px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: 1px solid rgba(255, 255, 255, 0.38);
+    border-radius: 22px;
+    padding: 2.6rem 3rem;
     margin-bottom: 2rem;
+    box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    overflow: hidden;
     text-align: center;
 }
-.hero-badge {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(8px);
-    color: #93c5fd;
-    font-size: 0.8rem;
+.liquid-hero::before {
+    content: "";
+    position: absolute;
+    top: -40%;
+    left: 25%;
+    width: 50%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.25) 0%, transparent 70%);
+    pointer-events: none;
+    filter: blur(50px);
+}
+.glass-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(34, 211, 238, 0.45);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    color: #67e8f9;
+    font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    padding: 6px 14px;
+    padding: 6px 18px;
     border-radius: 9999px;
-    margin-bottom: 0.85rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 1.1rem;
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
-.hero-title {
-    font-size: 2.3rem;
+.hero-title-liquid {
+    font-size: 2.55rem;
     font-weight: 800;
+    letter-spacing: -0.025em;
     margin: 0;
-    letter-spacing: -0.02em;
-    color: #ffffff;
+    background: linear-gradient(135deg, #ffffff 15%, #e2e8f0 60%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
 }
-.hero-subtitle {
-    font-size: 1.05rem;
-    color: #cbd5e1;
-    margin-top: 0.6rem;
-    font-weight: 500;
+.hero-subtitle-liquid {
+    font-size: 1.08rem;
+    color: #94a3b8;
+    margin-top: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
 }
 
-/* Section Header Titles */
-.section-title {
-    color: #0f172a;
-    font-size: 1.75rem;
-    font-weight: 800;
+/* Glassmorphic Section Headers */
+.section-header-liquid {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #f8fafc;
     letter-spacing: -0.02em;
-    margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 10px;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+.section-header-liquid span.icon-glow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 14px rgba(6, 182, 212, 0.25);
+    font-size: 1.1rem;
 }
 
-/* Metric Cards - Modern Pill & Drop Shadow */
+/* Layered Frosted Glass Panels */
+.glass-panel {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.45) 100%);
+    backdrop-filter: blur(24px) saturate(190%);
+    -webkit-backdrop-filter: blur(24px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+    padding: 24px 28px;
+    margin-bottom: 1.6rem;
+    box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Metric Cards - Refractive Liquid Glass */
 div[data-testid="stMetric"] {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-top: 3px solid #2563eb;
-    padding: 16px 20px;
-    border-radius: 14px;
-    box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.06);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.72) 0%, rgba(30, 41, 59, 0.42) 100%) !important;
+    backdrop-filter: blur(24px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.10) !important;
+    border-top: 2px solid rgba(6, 182, 212, 0.7) !important;
+    padding: 18px 22px !important;
+    border-radius: 16px !important;
+    box-shadow: 0 14px 34px -6px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 div[data-testid="stMetric"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px -2px rgba(37, 99, 235, 0.12);
+    transform: translateY(-3px) scale(1.01) !important;
+    border-top: 2px solid rgba(34, 211, 238, 1) !important;
+    box-shadow: 0 20px 42px -6px rgba(6, 182, 212, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.35) !important;
 }
 div[data-testid="stMetricLabel"] {
-    color: #64748b;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    color: #94a3b8 !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
 }
 div[data-testid="stMetricValue"] {
-    color: #0f172a;
-    font-weight: 800;
-    font-size: 1.6rem;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    font-size: 1.75rem !important;
+    text-shadow: 0 0 18px rgba(6, 182, 212, 0.45) !important;
 }
 
-/* Cards & Content Containers */
-.lab-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 14px;
-    padding: 22px 24px;
-    margin-bottom: 1.4rem;
-    box-shadow: 0 4px 14px -3px rgba(15, 23, 42, 0.05);
-}
-
-/* Tag / Badge Pills */
-.pill-tag {
-    display: inline-block;
-    background: #eff6ff;
-    color: #1d4ed8;
-    border: 1px solid #bfdbfe;
-    padding: 4px 12px;
+/* Liquid Neon Pills & Tags */
+.neon-pill {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    color: #67e8f9;
+    padding: 5px 14px;
     border-radius: 9999px;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 600;
-    margin-right: 6px;
-    margin-bottom: 6px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    box-shadow: 0 0 14px rgba(6, 182, 212, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* Sidebar Styling */
-section[data-testid="stSidebar"] {
-    background-color: #f8fafc;
-    border-right: 1px solid #e2e8f0;
+/* Liquid Glass Buttons */
+.stButton > button, div[data-testid="stFormSubmitButton"] > button {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.9) 0%, rgba(59, 130, 246, 0.85) 50%, rgba(139, 92, 246, 0.85) 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.75) !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
+    padding: 0.6rem 1.6rem !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 0 8px 24px rgba(6, 182, 212, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5) !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
-section[data-testid="stSidebar"] .stRadio label {
-    font-weight: 500;
-    color: #334155;
-}
-
-/* Buttons */
-.stButton > button {
-    border-radius: 10px;
-    font-weight: 600;
-    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
-    color: white;
-    border: none;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-    transition: all 0.2s ease;
-}
-.stButton > button:hover {
-    background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%);
-    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
-    color: white;
+.stButton > button:hover, div[data-testid="stFormSubmitButton"] > button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 32px rgba(6, 182, 212, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.7) !important;
+    border-color: rgba(255, 255, 255, 0.8) !important;
 }
 
-/* Dataframe & Tables */
+/* Download Buttons */
+.stDownloadButton > button {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.85) 0%, rgba(6, 182, 212, 0.85) 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.7) !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+}
+.stDownloadButton > button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 32px rgba(16, 185, 129, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Glass Viewport for 2D Structural Microscope */
+.mol-microscope-card {
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 16px;
+    padding: 14px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+}
+
+/* Translucent Inputs & Controls */
+input, textarea, div[data-baseweb="select"] > div {
+    background: rgba(15, 23, 42, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    border-radius: 10px !important;
+    color: #f1f5f9 !important;
+}
+input:focus, textarea:focus, div[data-baseweb="select"] > div:focus-within {
+    border-color: rgba(34, 211, 238, 0.8) !important;
+    box-shadow: 0 0 16px rgba(6, 182, 212, 0.35) !important;
+}
+
+/* Translucent Frosted Alerts */
+div[data-testid="stAlert"] {
+    background: rgba(15, 23, 42, 0.65) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Dataframe Clean Glass Frame */
 div[data-testid="stDataFrame"] {
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    background: rgba(15, 23, 42, 0.6) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -192,13 +329,7 @@ def parse_smiles(smiles):
         return None
 
 def calculate_bond_information(mol):
-    """Count sigma bonds including H; count pi components from a Kekule form.
-
-    For ordinary closed-shell organic structures: each atom-to-atom bond has one
-    sigma component. Each double bond contributes one pi component; each triple
-    bond contributes two. Aromatic structures are Kekulized before counting.
-    This is a teaching convention, not a quantum-chemical bond-order analysis.
-    """
+    """Count sigma bonds including H; count pi components from a Kekule form."""
     heavy_atom_bonds = mol.GetNumBonds()
     mol_h = Chem.AddHs(Chem.Mol(mol))
     sigma_bonds = mol_h.GetNumBonds()
@@ -213,8 +344,6 @@ def calculate_bond_information(mol):
             elif bt == Chem.BondType.TRIPLE:
                 pi_bonds += 2
     except Exception:
-        # Aromatic fallback is an approximate count of 0.5 pi component per
-        # aromatic edge. The interface flags this convention for interpretation.
         pi_bonds = sum(0.5 for b in mol.GetBonds() if b.GetIsAromatic())
     return {
         "Heavy-atom bonds": heavy_atom_bonds,
@@ -270,16 +399,17 @@ def show_3d(mol3d, style, show_surface):
     view = py3Dmol.view(width=850, height=520)
     view.addModel(Chem.MolToMolBlock(mol3d), "mol")
     if style == "Ball and stick":
-        view.setStyle({"stick": {"radius": 0.14}, "sphere": {"scale": 0.28}})
+        view.setStyle({"stick": {"radius": 0.16}, "sphere": {"scale": 0.28}})
     elif style == "Stick":
-        view.setStyle({"stick": {"radius": 0.18}})
+        view.setStyle({"stick": {"radius": 0.20}})
     elif style == "Space filling":
-        view.setStyle({"sphere": {"scale": 0.9}})
+        view.setStyle({"sphere": {"scale": 0.92}})
     elif style == "Wireframe":
-        view.setStyle({"line": {"linewidth": 2}})
+        view.setStyle({"line": {"linewidth": 2.2}})
     if show_surface:
-        view.addSurface(py3Dmol.VDW, {"opacity": 0.45}, {"color": "white"})
-    view.setBackgroundColor("white")
+        view.addSurface(py3Dmol.VDW, {"opacity": 0.40}, {"color": "#38bdf8"})
+    # Sleek dark liquid canvas background
+    view.setBackgroundColor("#080c16")
     view.zoomTo()
     components.html(view._make_html(), height=540, scrolling=False)
 
@@ -382,10 +512,16 @@ def create_pdf(student_name, reg_no, smiles, mol, props, notes=""):
     doc.build(story)
     return buffer.getvalue()
 
+# Sidebar: Liquid Glass Architecture
 st.sidebar.markdown("""
-<div style="padding: 10px 0 16px 0;">
-    <span style="background: #2563eb; color: white; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.05em;">VIRTUAL LAB</span>
-    <h2 style="margin: 8px 0 0 0; font-size: 1.3rem; font-weight: 800; color: #0f172a;">🧪 Cheminformatics</h2>
+<div class="sidebar-brand">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 1.8rem; filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.6));">🧪</span>
+        <div>
+            <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #22d3ee;">VIRTUAL LAB SUITE</div>
+            <div style="font-size: 1.15rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">Cheminformatics</div>
+        </div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -394,23 +530,46 @@ page = st.sidebar.radio("Navigation", [
     "📊 Molecular Properties", "📈 Structure–Property Comparison",
     "📝 Assessment", "📄 Final Report"
 ])
-st.sidebar.divider()
-st.sidebar.markdown("#### 👤 Student Profile")
+
+st.sidebar.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+st.sidebar.markdown("""
+<div class="glass-panel" style="padding: 16px 18px; margin-bottom: 16px;">
+    <div style="font-size: 0.78rem; font-weight: 700; color: #67e8f9; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px;">👤 Student Profile</div>
+""", unsafe_allow_html=True)
 st.sidebar.text_input("Student name", key="student_name")
 st.sidebar.text_input("Registration number", key="registration_number")
-st.sidebar.markdown("#### 🎯 Core Outcomes")
-st.sidebar.caption("• SMILES encoding & verification\n• 2D/3D conformer modeling\n• Property calculation (Lipinski / LogP)\n• Structure–Property trends\n• Academic PDF documentation")
+st.sidebar.markdown("</div>", unsafe_allow_html=True)
 
+st.sidebar.markdown("""
+<div class="glass-panel" style="padding: 16px 18px;">
+    <div style="font-size: 0.78rem; font-weight: 700; color: #a78bfa; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">🎯 Learning Outcomes</div>
+    <div style="color: #94a3b8; font-size: 0.82rem; line-height: 1.6;">
+        • SMILES connectivity & validation<br/>
+        • 2D/3D conformer modeling<br/>
+        • Molecular descriptors & LogP<br/>
+        • Structure–property patterns<br/>
+        • Rigorous academic reporting
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# Main Dashboard Content Pages
 if page == "🏠 Home":
     st.markdown("""
-    <div class="hero-card">
-        <span class="hero-badge">CHEMINFORMATICS & COMPUTATIONAL DISCOVERY</span>
-        <h1 class="hero-title">🧪 Computational Chemistry Virtual Laboratory</h1>
-        <p class="hero-subtitle">Interactive undergraduate simulation: Molecular graphs, 3D conformers, and predictive descriptors</p>
+    <div class="liquid-hero">
+        <div class="glass-badge">
+            <span>⚡</span> LIQUID GLASS COMPUTATIONAL PLATFORM
+        </div>
+        <h1 class="hero-title-liquid">🧪 Computational Chemistry Virtual Laboratory</h1>
+        <p class="hero-subtitle-liquid">Interactive simulation: Molecular graphs, 3D conformers, and predictive descriptors</p>
     </div>
     """, unsafe_allow_html=True)
     
-    st.markdown('<div class="section-title">✨ Overview</div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="section-header-liquid">
+        <span class="icon-glow">✨</span> Overview
+    </div>
+    """, unsafe_allow_html=True)
     st.write("Explore how molecular structures are computationally encoded, visualized in 2D and 3D space, and evaluated using cheminformatics descriptors.")
     
     c1, c2, c3 = st.columns(3)
@@ -419,9 +578,9 @@ if page == "🏠 Home":
     c3.metric("Core approach", "Structure → properties")
     
     st.markdown("""
-    <div class="lab-card" style="margin-top: 1.5rem;">
-        <h4 style="margin-top:0; color: #1e3a8a; font-weight: 700;">📌 Practical Workflow</h4>
-        <ul style="color: #334155; line-height: 1.7; margin-bottom: 0;">
+    <div class="glass-panel" style="margin-top: 1.6rem;">
+        <h4 style="margin-top:0; color: #38bdf8; font-weight: 700; letter-spacing: -0.01em;">📌 Practical Workflow</h4>
+        <ul style="color: #cbd5e1; line-height: 1.8; margin-bottom: 0;">
             <li>Select or enter SMILES text strings to parse molecular graphs.</li>
             <li>Render clean 2D topological structures and interactive 3D energy-minimized conformers.</li>
             <li>Calculate physicochemical properties, Lipinski parameters, and topological descriptors.</li>
@@ -431,20 +590,28 @@ if page == "🏠 Home":
     </div>
     """, unsafe_allow_html=True)
     
-    st.markdown('<div class="section-title">🧪 Active Example Molecules</div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="section-header-liquid">
+        <span class="icon-glow">🧪</span> Active Example Molecules
+    </div>
+    """, unsafe_allow_html=True)
     st.dataframe(pd.DataFrame([{"Molecule": k, "SMILES": v} for k, v in EXAMPLES.items()]),
                  use_container_width=True, hide_index=True)
     st.info("💡 **Recommended Pathway:** Begin with **Theory**, then proceed through **Molecular Visualization**, **Molecular Properties**, **Comparison**, **Assessment**, and **Final Report**.")
     st.warning("⚠️ **Educational Notice:** Computed descriptors are graph-derived and empirical predictions, serving as pedagogical models rather than direct experimental replacements.")
 
 elif page == "📘 Theory":
-    st.markdown('<div class="section-title">📘 Theory: Introduction to Cheminformatics</div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="section-header-liquid">
+        <span class="icon-glow">📘</span> Theory: Introduction to Cheminformatics
+    </div>
+    """, unsafe_allow_html=True)
     
     st.markdown("""
-    <div class="lab-card">
-        <h4 style="margin-top:0; color:#1e3a8a; font-weight: 700;">What is Cheminformatics?</h4>
-        <p style="color: #334155; margin-bottom: 0;">
-            Cheminformatics blends computational techniques and chemical information sciences to digitize, manipulate, analyze, and predict properties of molecular structures across pharmacology, materials, and biochemistry.
+    <div class="glass-panel">
+        <h4 style="margin-top:0; color: #38bdf8; font-weight: 700;">What is Cheminformatics?</h4>
+        <p style="color: #cbd5e1; margin-bottom: 0; line-height: 1.7;">
+            Cheminformatics applies computational and information-science methods to represent, store, analyze, and compare chemical structures and related data across pharmacology, biochemistry, and materials research.
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -473,7 +640,11 @@ elif page == "📘 Theory":
     st.write("A descriptor is not a direct measurement. LogP is not the same as pH-dependent LogD. Ionization, tautomerism, stereochemistry, conformer choice, and experimental conditions can change how a molecule behaves.")
 
 elif page == "🧬 Molecular Visualization":
-    st.markdown('<div class="section-title">🧬 Molecular Visualization</div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="section-header-liquid">
+        <span class="icon-glow">🧬</span> Molecular Visualization
+    </div>
+    """, unsafe_allow_html=True)
     chosen = st.selectbox("Load an example molecule", ["(keep current input)"] + list(EXAMPLES.keys()))
     if chosen != "(keep current input)":
         st.session_state.active_smiles = EXAMPLES[chosen]
@@ -486,12 +657,15 @@ elif page == "🧬 Molecular Visualization":
         left, right = st.columns(2)
         with left:
             st.subheader("2D structure")
+            st.markdown('<div class="mol-microscope-card">', unsafe_allow_html=True)
             st.image(Draw.MolToImage(mol, size=(650, 430)), use_container_width=True)
+            st.markdown('</div>', unsafe_allow_html=True)
         with right:
             st.subheader("Molecular identity")
-            st.markdown(f'<div class="pill-tag">Formula: {rdMolDescriptors.CalcMolFormula(mol)}</div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="pill-tag">Heavy Atoms: {mol.GetNumHeavyAtoms()}</div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="pill-tag">Rings: {Lipinski.RingCount(mol)}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="neon-pill">Formula: {rdMolDescriptors.CalcMolFormula(mol)}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="neon-pill">Heavy Atoms: {mol.GetNumHeavyAtoms()}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="neon-pill">Rings: {Lipinski.RingCount(mol)}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="neon-pill">Rotatable: {Lipinski.NumRotatableBonds(mol)}</div>', unsafe_allow_html=True)
             st.write("**Canonical SMILES:**", f"`{Chem.MolToSmiles(mol)}`")
             st.write("**Formula:**", rdMolDescriptors.CalcMolFormula(mol))
             st.write("**Heavy atoms:**", mol.GetNumHeavyAtoms())
@@ -511,7 +685,11 @@ elif page == "🧬 Molecular Visualization":
                 show_3d(mol3d, style, surface)
 
 elif page == "📊 Molecular Properties":
-    st.markdown('<div class="section-title">📊 Molecular Properties</div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="section-header-liquid">
+        <span class="icon-glow">📊</span> Molecular Properties
+    </div>
+    """, unsafe_allow_html=True)
     chosen = st.selectbox("Load an example molecule", ["(keep current input)"] + list(EXAMPLES.keys()), key="prop_example")
     if chosen != "(keep current input)":
         st.session_state.active_smiles = EXAMPLES[chosen]
@@ -528,7 +706,7 @@ elif page == "📊 Molecular Properties":
         cols[2].metric("TPSA", f"{props['TPSA (Å²)']:.2f} Å²")
         cols[3].metric("Ring count", props["Ring count (RDKit)"])
         
-        st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
         df = pd.DataFrame([{"Property": k, "Value": v} for k, v in props.items()])
         st.dataframe(df, use_container_width=True, hide_index=True)
         st.download_button("Download properties as CSV", make_csv_bytes(df),
@@ -536,7 +714,11 @@ elif page == "📊 Molecular Properties":
         st.info("Bond-count convention: sigma bonds count atom-to-atom connections after adding hydrogens. Pi components are counted from a Kekulé form (double = 1, triple = 2). Treat these as a structural teaching count, not a quantum-chemical bond-order calculation.")
 
 elif page == "📈 Structure–Property Comparison":
-    st.markdown('<div class="section-title">📈 Structure–Property Comparison</div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="section-header-liquid">
+        <span class="icon-glow">📈</span> Structure–Property Comparison
+    </div>
+    """, unsafe_allow_html=True)
     st.write("Enter one molecule per line using `Name,SMILES`. Invalid lines are reported and skipped.")
     default = "\n".join(f"{n},{s}" for n, s in list(EXAMPLES.items())[:5])
     text = st.text_area("Molecules", value=default, height=190)
@@ -575,7 +757,11 @@ elif page == "📈 Structure–Property Comparison":
         st.info("Enter at least one valid molecule in the required format.")
 
 elif page == "📝 Assessment":
-    st.markdown('<div class="section-title">📝 Knowledge Check</div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="section-header-liquid">
+        <span class="icon-glow">📝</span> Knowledge Check
+    </div>
+    """, unsafe_allow_html=True)
     questions = [
         ("What does a SMILES string encode?", ["Molecular connectivity as text", "A measured melting point", "An experimental spectrum"], 0),
         ("In SMILES, parentheses usually indicate:", ["Branches", "Isotopes only", "Aromaticity only"], 0),
@@ -615,7 +801,11 @@ elif page == "📝 Assessment":
                     st.write(f"{i+1}. {q} **Answer:** {opts[correct]}")
 
 elif page == "📄 Final Report":
-    st.markdown('<div class="section-title">📄 Final Student Report</div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="section-header-liquid">
+        <span class="icon-glow">📄</span> Final Student Report
+    </div>
+    """, unsafe_allow_html=True)
     st.write("Check the student information, choose the molecule, add your interpretation, and generate a PDF report.")
     name = st.text_input("Student name", key="report_name", value=st.session_state.get("student_name", ""))
     reg = st.text_input("Registration number", key="report_reg", value=st.session_state.get("registration_number", ""))
