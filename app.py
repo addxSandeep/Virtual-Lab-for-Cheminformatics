@@ -600,6 +600,25 @@ if page == "🏠 Home":
     st.info("💡 **Recommended Pathway:** Begin with **Theory**, then proceed through **Molecular Visualization**, **Molecular Properties**, **Comparison**, **Assessment**, and **Final Report**.")
     st.warning("⚠️ **Educational Notice:** Computed descriptors are graph-derived and empirical predictions, serving as pedagogical models rather than direct experimental replacements.")
 
+    st.markdown("<div style='height: 24px;'></div>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="glass-panel" style="margin-top: 1.5rem; border-left: 3px solid #06b6d4;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+            <span style="font-size: 1.6rem;">👨‍💻</span>
+            <h3 style="margin: 0; color: #ffffff; font-weight: 700; letter-spacing: -0.01em;">Developed by</h3>
+        </div>
+        <div style="font-size: 1.2rem; font-weight: 700; color: #38bdf8; margin-bottom: 6px;">
+            Sandeep Kumar Sunrait
+        </div>
+        <div style="color: #cbd5e1; font-size: 0.96rem; line-height: 1.8;">
+            <span style="color: #94a3b8; font-weight: 600;">Registration Number:</span> <span class="neon-pill" style="margin: 0; padding: 2px 10px; font-size: 0.8rem;">RA2611026050327</span><br/>
+            <span style="color: #94a3b8; font-weight: 600;">Program:</span> B.Tech in Computer Science and Engineering (AIML)<br/>
+            <span style="color: #94a3b8; font-weight: 600;">Institution:</span> SRM Institute of Science and Technology, Tiruchirappalli
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.caption("🧪 Cheminformatics Virtual Laboratory | Developed using Python, Streamlit and RDKit")
+
 elif page == "📘 Theory":
     st.markdown("""
     <div class="section-header-liquid">
